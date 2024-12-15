@@ -7,19 +7,19 @@ class Deck {
 private:
     Card** cards;
     const int gridSize = 4;
+    int size;
 
 public:
     Deck();
     ~Deck();
-    Deck(Card** cards);
+    Deck(Card** cards, int size);
 
     void Shuffle();
-    void displayGrid();
-    Card* getCard(int row, int col) const;
+    void displayGrid() const;
+    void resetGrid() const;
+    Card* getCard(int index) const;
+    void removeCard(int index);
     int getSize() const;
 
 };
-
-
-
 #endif //DECK_H

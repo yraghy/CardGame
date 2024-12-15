@@ -3,8 +3,9 @@
 
 class Card {
 private:
-    int number;
+    const int number;
     bool faceUp;
+    bool removed;
 
 public:
     Card();
@@ -13,13 +14,12 @@ public:
 
 
     int getNumber() const;
-    void setNumber(int num);
     bool isFaceUp() const;
-    void setFaceUp(bool up);
-
-
+    bool isRemoved() const;
+    void reveal ();
+    void hide();
+    void remove();
     virtual void display() const;
-    virtual int getPoints() const = 0;
 };
 
 class StandardCard : public Card {
@@ -27,26 +27,18 @@ public:
     StandardCard();
     StandardCard(int num);
     ~StandardCard();
-
-    int getPoints() const override;
 };
 
 class BonusCard : public Card {
 public:
-    BonusCard();
     BonusCard(int num);
     ~BonusCard();
-
-    int getPoints() const override;
 };
 
 class PenaltyCard : public Card {
 public:
-    PenaltyCard();
     PenaltyCard(int num);
     ~PenaltyCard();
-
-    int getPoints() const override;
 };
 
 #endif

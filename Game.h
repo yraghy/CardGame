@@ -16,12 +16,4 @@ public:
     void initializeGame();
     Deck* getDeck() const;
 };
-
-
-
-
-
-
-
-
 #endif //GAME_H

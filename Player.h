@@ -2,23 +2,23 @@
 #define PLAYER_H
 
 #include <string>
-using namespace std;l
+using namespace std;
 
 class Player {
 private:
-    string name;
+    const string name;
     int score;
 
 public:
     Player();
-    Player(const string name, int score);
+    Player(string name);
     ~Player();
 
-    string getName();
-    int getScore();
+    string getName()const;
+    int getScore()const;
     void setScore(int score);
-
-    void displayScore();
+    void increaseScore(int points);
+    void displayScore() const;
 
 
 
