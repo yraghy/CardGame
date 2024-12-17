@@ -13,9 +13,15 @@ using namespace std;
     }
 
     void Deck::Shuffle() {
+        //(Mersenne Twister)
+        std::random_device rd;  // Obtain a random seed from hardware or system entropy (huhhh)
+        std::mt19937 gen(rd());  //Mersenne Twister engine using the seed from random_device
+        std::uniform_int_distribution<> dis(0, size - 1);  // Distribution for picking a random index
+
+        // Perform the shuffle using the Mersenne Twister random number generator
         for (int i = 0; i < size; ++i) {
-            int randIndex = rand() % size;
-            std::swap(cards[i], cards[randIndex]);
+            int randIndex = dis(gen);  // Generate a random index using the distribution
+            std::swap(cards[i], cards[randIndex]);  // Swap the current card with the randomly selected one
         }
     }
 

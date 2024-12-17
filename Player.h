@@ -6,7 +6,7 @@ using namespace std;
 
 class Player {
 private:
-    const string name;
+    string name;
     int score;
 
 public:
@@ -14,15 +14,12 @@ public:
     Player(string name);
     ~Player();
 
-    string getName()const;
-    int getScore()const;
-    void setScore(int score);
+    string getName() const;
+    int getScore() const;
+    void setScore(int newScore);
     void increaseScore(int points);
+    void decreaseScore(int points); // New method
     void displayScore() const;
-
-
-
 };
 
-
-#endif //PLAYER_H
+#endif // PLAYER_H

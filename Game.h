@@ -18,7 +18,7 @@ public:
     void initializeGame();
     Deck* getDeck() const;
     void displayScores() const;
-    void calculatePoints(Card* c1, Card* c2) const;
+    void calculatePoints(Card* c1, Card* c2);
     int HandleBonus(Card* c1, Card* c2) const;
     int HandlePenalty(Card* c1, Card* c2) const;
     void playTurn();

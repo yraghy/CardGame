@@ -2,29 +2,28 @@
 #define CARD_H
 
 class Card {
-private:
-    const int number;
+protected:
+    int number;
     bool faceUp;
     bool removed;
 
 public:
     Card();
-    Card(int num);
+    Card(int number);
     virtual ~Card();
 
-    //Getters & Setters
     int getNumber() const;
     bool isFaceUp() const;
     bool isRemoved() const;
-    bool isStandard() const;
-    void reveal ();
+    virtual bool isStandard() const;
+    virtual bool isBonus() const; // New virtual method
+    virtual bool isPenalty() const; // New virtual method
+    void reveal();
     void hide();
     void remove();
-    virtual void display() const;
+    void display() const;
 
-    //OP overloads
     bool operator==(const Card& other) const;
-
 };
 
 class StandardCard : public Card {
@@ -32,18 +31,24 @@ public:
     StandardCard();
     StandardCard(int num);
     ~StandardCard();
+    bool isBonus() const override;
+    bool isPenalty() const override;
 };
 
 class BonusCard : public Card {
 public:
     BonusCard(int num);
     ~BonusCard();
+    bool isBonus() const override;
+    bool isPenalty() const override;
 };
 
 class PenaltyCard : public Card {
 public:
     PenaltyCard(int num);
     ~PenaltyCard();
+    bool isBonus() const override;
+    bool isPenalty() const override;
 };
 
-#endif
+#endif // CARD_H
