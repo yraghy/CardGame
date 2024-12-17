@@ -66,6 +66,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             c1->remove();
             c2->remove();
             cout << "Match found! " << currentPlayer->getName() << " gains 1 point and plays again.\n";
+            cout << endl;
             return; // Player gets another turn.
         }
     } else if (c1->isBonus() && c2->isBonus()) {
@@ -108,12 +109,15 @@ void Game::calculatePoints(Card* c1, Card* c2) {
         cout << "Bonus Card revealed! " << currentPlayer->getName() << " gains 1 point.\n";
     } else if (c1->isPenalty() || c2->isPenalty()) {
         currentPlayer->decreaseScore(1);
+        if (c1->isPenalty()) c1->remove();
+        else c2->remove();
         cout << "Penalty Card revealed! " << currentPlayer->getName() << " loses 1 point.\n";
     }
 
     c1->hide();
     c2->hide();
 }
+
 
 int Game::askCoordinates() {
     string coordinates;
@@ -151,6 +155,7 @@ bool Game::isGameOver() const {
 }
 
 void Game::playTurn() {
+    cout<<endl;
     cout << currentPlayer->getName() << "'s turn!\n";
     deck->displayGrid();
     displayScores();
