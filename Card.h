@@ -12,14 +12,19 @@ public:
     Card(int num);
     virtual ~Card();
 
-
+    //Getters & Setters
     int getNumber() const;
     bool isFaceUp() const;
     bool isRemoved() const;
+    bool isStandard() const;
     void reveal ();
     void hide();
     void remove();
     virtual void display() const;
+
+    //OP overloads
+    bool operator==(const Card& other) const;
+
 };
 
 class StandardCard : public Card {

@@ -9,6 +9,7 @@ using namespace std;
     int Card::getNumber() const { return number; }
     bool Card::isFaceUp() const { return faceUp; }
     bool Card::isRemoved() const { return removed; }
+    bool Card::isStandard() const {if(number!=7 && number!=8) return true; return false;}
     void Card::reveal() { faceUp = true; }
     void Card::hide() { faceUp = false; }
     void Card::remove(){
@@ -19,6 +20,10 @@ using namespace std;
         if(this->isFaceUp()) cout<<getNumber();
         else if(this->isRemoved()) cout<< " x ";
         else cout<<" * ";
+    }
+
+    bool Card::operator==(const Card& other) const {
+        return this->number == other.number;
     }
 
 //Standard Card

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include "Deck.h"
 using namespace std;
 
@@ -43,8 +44,8 @@ using namespace std;
     }
 
     void Deck::removeCard(int index) {
-        card[index]->remove();
-        card[index]->display();
+        cards[index]->remove();
+        cards[index]->display();
     }
 
     int Deck::getSize() const { return size; }
