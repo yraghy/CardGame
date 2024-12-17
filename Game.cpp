@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+
 using namespace std;
 
 Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0) {}
@@ -60,6 +61,8 @@ void Game::calculatePoints(Card *c1, Card *c2) const {
         if(*c1 == *c2) currentPlayer->increaseScore(1);
         players[0]->displayScore();
         players[1]->displayScore();
+        cout<<"Press enter to play next turn: ";
+        cin.ignore();
         return;
     }
 //    if(c1->getNumber() == 7 && c2->getNumber() == 7) HandleBonus(c1, c2);
@@ -98,7 +101,7 @@ bool Game::isGameOver() const {
     return flag;
 }
 
-void Game::startGameLoop(){
+void Game::playTurn(){
     int card1 = askCoordinates();
     int card2 = askCoordinates();
     Card *c1 = deck->getCard(card1);
@@ -107,6 +110,11 @@ void Game::startGameLoop(){
     c2->reveal();
     deck->displayGrid();
     calculatePoints(c1, c2);
+
+}
+
+void Game::startGameLoop(){
+    playTurn();
 
 
     if(!isGameOver()) {

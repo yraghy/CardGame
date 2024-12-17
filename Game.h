@@ -21,6 +21,7 @@ public:
     void calculatePoints(Card* c1, Card* c2) const;
     int HandleBonus(Card* c1, Card* c2) const;
     int HandlePenalty(Card* c1, Card* c2) const;
+    void playTurn();
     void startGameLoop();
     int askCoordinates();
     void switchTurn();
