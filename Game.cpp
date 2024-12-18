@@ -5,9 +5,9 @@
 
 using namespace std;
 
-Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0), remainingCards(16) {}
+Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0) {}
 
-Game::Game(Deck* deck, Player** players) : deck(deck), players(players), currentPlayer(players[0]), turnBit(0), remainingCards(16) {}
+Game::Game(Deck* deck, Player** players) : deck(deck), players(players), currentPlayer(players[0]), turnBit(0) {}
 
 Game::~Game() {
     delete deck;
@@ -23,7 +23,7 @@ void Game::initializeGame() {
     cin >> name1;
     cout << "\nEnter Player #2 name: ";
     cin >> name2;
-    cout<<endl;
+    cout << endl;
 
     auto* player1 = new Player(name1);
     auto* player2 = new Player(name2);
@@ -59,14 +59,6 @@ void Game::displayScores() const {
     cout << players[1]->getName() << "'s score: " << players[1]->getScore() << endl;
 }
 
-void Game::checkRemainingCards() {
-    if (remainingCards == 1) {
-        cout << "One Card Left, no more guesses." << endl;
-        exit(0); 
-    }
-    remainingCards--;
-}
-
 void Game::calculatePoints(Card* c1, Card* c2) {
     if (c1->isStandard() && c2->isStandard()) {
         if (*c1 == *c2) {
@@ -74,8 +66,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             c1->remove();
             c2->remove();
             cout << "Match found! " << currentPlayer->getName() << " gains 1 point and plays again.\n";
-            cout << endl;
-            return; 
+            return;
         }
     } else if (c1->isBonus() && c2->isBonus()) {
         int choice;
@@ -84,13 +75,17 @@ void Game::calculatePoints(Card* c1, Card* c2) {
         cin >> choice;
         if (choice == 1) {
             currentPlayer->increaseScore(2);
-        } else {
+            c1->remove();
+            c2->remove();
+            cout << currentPlayer->getName() << " gains 2 points.\n";
+            return;
+        } else if (choice == 2) {
             currentPlayer->increaseScore(1);
-            turnBit = (turnBit + 1) % 2; 
+            c1->remove();
+            c2->remove();
+            cout << currentPlayer->getName() << " gains 1 point and plays again.\n";
+            return;
         }
-        c1->remove();
-        c2->remove();
-        return;
     } else if (c1->isPenalty() && c2->isPenalty()) {
         int choice;
         cout << "Two Penalty Cards revealed! Choose an option:\n";
@@ -100,7 +95,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             currentPlayer->decreaseScore(2);
         } else {
             currentPlayer->decreaseScore(1);
-            turnBit = (turnBit + 1) % 2; 
+            turnBit = (turnBit + 1) % 2;
         }
         c1->remove();
         c2->remove();
@@ -131,7 +126,7 @@ int Game::askCoordinates() {
     while (true) {
         cout << "Enter x,y coordinates (1-4 for both x and y): ";
         cin >> coordinates;
-        cout<<endl;
+        cout << endl;
         if (coordinates.size() == 3 && coordinates[1] == ',' &&
             isdigit(coordinates[0]) && isdigit(coordinates[2])) {
             int x = coordinates[0] - '1';
@@ -162,7 +157,7 @@ bool Game::isGameOver() const {
 }
 
 void Game::playTurn() {
-    cout<<endl;
+    cout << endl;
     cout << currentPlayer->getName() << "'s turn!\n";
     deck->displayGrid();
     displayScores();
@@ -174,7 +169,7 @@ void Game::playTurn() {
         card1 = askCoordinates();
         card2 = askCoordinates();
     }
-    cout<<endl;
+    cout << endl;
     Card* c1 = deck->getCard(card1);
     Card* c2 = deck->getCard(card2);
     c1->reveal();
@@ -182,16 +177,11 @@ void Game::playTurn() {
     deck->displayGrid();
 
     calculatePoints(c1, c2);
-
-    if (!(turnBit % 2 == 1)) {
-        turnBit = (turnBit + 1) % 2;
-        currentPlayer = players[turnBit];
-        cout << "Turn ends. Switching to " << currentPlayer->getName() << "'s turn. Press Enter to continue.";
-        cin.ignore();
-        cin.get();
-        cout<<endl;
+    if (!(c1->isBonus() && c2->isBonus() && turnBit == 0) &&
+        !(c1->isPenalty() && c2->isPenalty() && turnBit == 0) &&
+        !(c1->isStandard() && c2->isStandard() && *c1 == *c2)) {
+        switchTurn();
     }
-    checkRemainingCards(); 
 }
 
 void Game::startGameLoop() {

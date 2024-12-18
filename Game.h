@@ -9,7 +9,7 @@ private:
     Deck* deck;
     Player** players;
     Player* currentPlayer;
-    int turnBit; 
+    int turnBit; //is either 0 or 1 indicating which player is the current player
     const int numOfPlayers = 2;
     int remainingCards;
 public:
