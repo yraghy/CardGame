@@ -5,9 +5,9 @@
 
 using namespace std;
 
-Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0) {}
+Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0), remainingCards(16) {}
 
-Game::Game(Deck* deck, Player** players) : deck(deck), players(players), currentPlayer(players[0]), turnBit(0) {}
+Game::Game(Deck* deck, Player** players) : deck(deck), players(players), currentPlayer(players[0]), turnBit(0), remainingCards(16) {}
 
 Game::~Game() {
     delete deck;
@@ -57,6 +57,14 @@ Deck* Game::getDeck() const {
 void Game::displayScores() const {
     cout << players[0]->getName() << "'s score: " << players[0]->getScore() << endl;
     cout << players[1]->getName() << "'s score: " << players[1]->getScore() << endl;
+}
+
+void Game::checkRemainingCards() {
+    if (remainingCards == 1) {
+        cout << "One Card Left, no more guesses." << endl;
+        exit(0); // End the game
+    }
+    remainingCards--;
 }
 
 void Game::calculatePoints(Card* c1, Card* c2) {
@@ -117,7 +125,6 @@ void Game::calculatePoints(Card* c1, Card* c2) {
     c1->hide();
     c2->hide();
 }
-
 
 int Game::askCoordinates() {
     string coordinates;
@@ -185,6 +192,7 @@ void Game::playTurn() {
         cin.get();
         cout<<endl;
     }
+    checkRemainingCards(); // Call the method here
 }
 
 void Game::startGameLoop() {
