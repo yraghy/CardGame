@@ -11,6 +11,7 @@ private:
     Player* currentPlayer;
     int turnBit; // is either 0 or 1 indicating which player is the current player
     const int numOfPlayers = 2;
+    int remainingCards;
 public:
     Game();
     Game(Deck* deck, Player** players);
@@ -26,5 +27,6 @@ public:
     int askCoordinates();
     void switchTurn();
     bool isGameOver() const;
+    void checkRemainingCards();
 };
 #endif //GAME_H
