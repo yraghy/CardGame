@@ -62,7 +62,7 @@ void Game::displayScores() const {
 void Game::checkRemainingCards() {
     if (remainingCards == 1) {
         cout << "One Card Left, no more guesses." << endl;
-        exit(0); // End the game
+        exit(0); 
     }
     remainingCards--;
 }
@@ -75,7 +75,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             c2->remove();
             cout << "Match found! " << currentPlayer->getName() << " gains 1 point and plays again.\n";
             cout << endl;
-            return; // Player gets another turn.
+            return; 
         }
     } else if (c1->isBonus() && c2->isBonus()) {
         int choice;
@@ -86,7 +86,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             currentPlayer->increaseScore(2);
         } else {
             currentPlayer->increaseScore(1);
-            turnBit = (turnBit + 1) % 2; // Keep current player.
+            turnBit = (turnBit + 1) % 2; 
         }
         c1->remove();
         c2->remove();
@@ -100,7 +100,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             currentPlayer->decreaseScore(2);
         } else {
             currentPlayer->decreaseScore(1);
-            turnBit = (turnBit + 1) % 2; // Skip the next turn.
+            turnBit = (turnBit + 1) % 2; 
         }
         c1->remove();
         c2->remove();
@@ -183,7 +183,6 @@ void Game::playTurn() {
 
     calculatePoints(c1, c2);
 
-    // Switch turn unless the current player gets another turn.
     if (!(turnBit % 2 == 1)) {
         turnBit = (turnBit + 1) % 2;
         currentPlayer = players[turnBit];
@@ -192,7 +191,7 @@ void Game::playTurn() {
         cin.get();
         cout<<endl;
     }
-    checkRemainingCards(); // Call the method here
+    checkRemainingCards(); 
 }
 
 void Game::startGameLoop() {
