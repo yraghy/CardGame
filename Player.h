@@ -18,7 +18,7 @@ public:
     int getScore() const;
     void setScore(int newScore);
     void increaseScore(int points);
-    void decreaseScore(int points); // New method
+    void decreaseScore(int points);
     void displayScore() const;
 };
 

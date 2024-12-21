@@ -5,9 +5,9 @@
 
 using namespace std;
 
-Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0) {}
+Game::Game() : deck(nullptr), players(nullptr), currentPlayer(nullptr), turnBit(0), skippedTurn(false), extraTurn(false) {}
 
-Game::Game(Deck* deck, Player** players) : deck(deck), players(players), currentPlayer(players[0]), turnBit(0) {}
+Game::Game(Deck* deck, Player** players) : deck(deck), players(players), currentPlayer(players[0]), turnBit(0), skippedTurn(false), extraTurn(false) {}
 
 Game::~Game() {
     delete deck;
@@ -45,7 +45,7 @@ void Game::initializeGame() {
     cards[++j] = new PenaltyCard(8);
 
     deck = new Deck(cards, 16);
-    deck->Shuffle();
+//    deck->Shuffle();
     deck->displayGrid();
     startGameLoop();
 }
@@ -83,6 +83,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             currentPlayer->increaseScore(1);
             c1->remove();
             c2->remove();
+            extraTurn = true;
             cout << currentPlayer->getName() << " gains 1 point and plays again.\n";
             return;
         }
@@ -95,6 +96,7 @@ void Game::calculatePoints(Card* c1, Card* c2) {
             currentPlayer->decreaseScore(2);
         } else {
             currentPlayer->decreaseScore(1);
+            skippedTurn = true;
             turnBit = (turnBit + 1) % 2;
         }
         c1->remove();
@@ -140,19 +142,26 @@ int Game::askCoordinates() {
 }
 
 void Game::switchTurn() {
-    turnBit = (turnBit + 1) % 2;
+    if(skippedTurn) (turnBit +2) %2;
+    else if(extraTurn) (turnBit +2) %2;
+    else {
+        turnBit = (turnBit + 1) % 2;
+    }
     currentPlayer = players[turnBit];
     cout << "Turn ends. Switching to " << currentPlayer->getName() << "'s turn. Press Enter to continue.";
     cin.ignore();
     cin.get();
 }
-
-bool Game::isGameOver() const {
-    for (int i = 0; i < deck->getSize(); i++) {
-        if (!deck->getCard(i)->isRemoved()) {
-            return false;
-        }
+int Game::checkRemainingCards(){
+    int remaining = 0;
+    for(int i=0; i<deck->getSize(); i++){
+        if(!deck->getCard(i)->isRemoved()) remaining++;
     }
+    return remaining;
+}
+
+bool Game::isGameOver() {
+    if(checkRemainingCards() > 1) return false;
     return true;
 }
 
@@ -180,6 +189,7 @@ void Game::playTurn() {
     if (!(c1->isBonus() && c2->isBonus() && turnBit == 0) &&
         !(c1->isPenalty() && c2->isPenalty() && turnBit == 0) &&
         !(c1->isStandard() && c2->isStandard() && *c1 == *c2)) {
+
         switchTurn();
     }
 }

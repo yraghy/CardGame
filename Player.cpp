@@ -16,7 +16,7 @@ void Player::increaseScore(int points) { score += points; }
 
 void Player::decreaseScore(int points) {
     score -= points;
-    if (score < 0) score = 0; //prevents neg score!!!
+//    if (score < 0) score = 0; //prevents neg score!!!
 }
 
 void Player::displayScore() const {

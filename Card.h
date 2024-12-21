@@ -16,8 +16,8 @@ public:
     bool isFaceUp() const;
     bool isRemoved() const;
     virtual bool isStandard() const;
-    virtual bool isBonus() const; // New virtual method
-    virtual bool isPenalty() const; // New virtual method
+    virtual bool isBonus() const;
+    virtual bool isPenalty() const;
     void reveal();
     void hide();
     void remove();
